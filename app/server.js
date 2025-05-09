@@ -2,7 +2,8 @@ const express = require('express');
 const { createClient } = require('redis');
 const axios = require('axios');
 
-const serverPort = process.env.SERVER_PORT;
+const serverPort = process.env.PORT || 8000;
+
 const serverHost = process.env.SERVER_HOST;
 
 const serverNumber = process.env.SERVER_NUMBER;
@@ -60,10 +61,10 @@ async function main() {
     await redisClient.connect();
     console.log('Connected to Redis');
 
-    const server = app.listen(serverPort, serverHost, () => {
-      console.log(`Listening at http://${serverHost}:${serverPort}`);
+    const server = app.listen(serverPort, () => {
+      console.log(`Listening on port ${serverPort}`);
     });
-
+    
     const shutdownHandler = async () => {
       console.log('Shutting down gracefully...');
 
